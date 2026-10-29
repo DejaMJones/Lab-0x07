@@ -14,7 +14,7 @@ CAL_WAIT_MS = 3000    # Time allowed to calibrate
 
 
 def display_cal_status(imu):
-    """Get the four calibration values (0.3), 
+    """Get the four calibration values (0..3), 
     Any sensor data reporting 0 should be ignored,
     3 means 'fully calibrated'  """
     system, gyro, accel, mag = imu.get_calibration()
