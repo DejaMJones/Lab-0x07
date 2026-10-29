@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Oct 21 22:16:49 2026
-
-@author: dejam
-"""
 
 """ (Lab 0x06).
 Line sensor
@@ -17,7 +11,7 @@ NEW WIRING TABLE in memo document
 from array import array
 from pyb import ADC, Pin
 
-CHANNELS = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)           # printed channel numbers
+CHANNELS = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)    # printed channel numbers
 PIN_NAMES = ("A0", "A1", "A4", "B0", "C1", "C0", "C2", "C3", "A6", "A7", "C5", "C4", "A5")
 CH1_ON_RIGHT = True
 SPACING_MM = 4.0
@@ -27,9 +21,9 @@ TIMER_FREQ = 5000    # Hz. 13 channels x 5 kHz = 65,000 readings/s = tested maxi
 N_SAMPLES = 10    # samples per channel per batch (10 samples at 5 kHz = about 2 ms)
 MIN_SPAN = 200    # smallest acceptable black - white difference [ADC counts]
 MIN_TOTAL = 0.1    # total weight below this = no line seen (centroid undefined).
-                        # Noise on white leaves a tiny nonzero total, so test against a
-                        # small threshold, not exactly zero.
-COMPLETELY_BLACK = 0.8    # Any reading at or above this counts as Black
+                   # Noise on white leaves a tiny nonzero total, so test against a
+                   # small threshold, not exactly zero.
+COMPLETELY_BLACK = 0.8    # (Lab 0x07) Any reading at or above this counts as Black
 
 def lateral_positions(ch1_on_right=CH1_ON_RIGHT):
     """Lateral position of each channel in mm (-24 ... +24), + toward Romi's left."""
@@ -131,4 +125,4 @@ class LineSensor:
         for i in range(self.n):
             if self.w[i] < threshold:
                 return False
-            return True
+        return True
