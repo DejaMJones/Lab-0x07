@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Oct  8 01:26:19 2026
-
-@author: dejam
-"""
 """taskMotor"""
 from time import ticks_ms, ticks_diff
 from math import pi
@@ -60,9 +54,9 @@ class TaskMotor:
                 self.motor.disable()
                 if self.omega_out is not None:    # Stop Sharing when motors are disabled
                     self.omega_out.put(0)
-                    self.go.put(0)
-                    self.done.put(0)
-                    self.state = S2_IDLE
+                self.go.put(0)
+                self.done.put(0)
+                self.state = S2_IDLE
 
             elif self.state == S2_IDLE:
                 if self.go.get():    # Wait without blocking for the user
