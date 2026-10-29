@@ -1,19 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Oct 28 19:48:28 2026
-
-@author: dejam
-"""
-
-"""bno055 - IMU driver, IMUPLUS mode.
-Wiring: Red=VIN, Black=GND, Orange=SDA, Blue=SCL, Purple=RST. Pin 2 (3Vo) unconnected.
-Mounting: board flat on Romi, z up, x forward.
-"""
-from micropython import const
-from struct import calcsize, unpack_from
-from time import sleep_ms
-from math import pi
-
 from micropython import const
 from struct import calcsize, unpack_from
 from time import sleep_ms
@@ -54,13 +38,13 @@ class BNO055:
         buf = memoryview(self._buf)[:length]
 
         # Read from the I2C bus into the memoryview
-        self._i2c.mem_read(buf, self.DEV_ADDR, reg[0])
+        self._i2c.readfrom_mem_into(self.DEV_ADDR, reg[0], buf)
 
         # Unpack the bytes into a tuple
         return unpack_from(reg[1], buf)
 
     def _write_reg(self, reg, value):
-        self._i2c.mem_write(bytes([value]), self.DEV_ADDR, reg[0])
+       self._i2c.writeto_mem(self.DEV_ADDR, reg[0], bytes([value]))
 
     def chip_id(self):
         return self._read_reg(BNO055.reg.CHIP_ID)[0]
@@ -92,5 +76,5 @@ class BNO055:
 
     def write_profile(self, data):
         self.set_mode(BNO055.MODE_CONFIG)
-        self._i2c.mem_write(bytes(data), self.DEV_ADDR, BNO055.reg.CALIB_PROFILE[0])
+        self._i2c.writeto_mem(self.DEV_ADDR, BNO055.reg.CALIB_PROFILE[0], bytes(data))
         self.set_mode(BNO055.MODE_IMUPLUS)
