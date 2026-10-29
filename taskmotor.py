@@ -54,9 +54,9 @@ class TaskMotor:
                 self.motor.disable()
                 if self.omega_out is not None:    # Stop Sharing when motors are disabled
                     self.omega_out.put(0)
-                self.go.put(0)
-                self.done.put(0)
-                self.state = S2_IDLE
+                    self.go.put(0)
+                    self.done.put(0)
+                    self.state = S2_IDLE
 
             elif self.state == S2_IDLE:
                 if self.go.get():    # Wait without blocking for the user
