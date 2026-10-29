@@ -6,8 +6,8 @@ Created on Wed Oct 28 19:48:28 2026
 """
 
 """bno055 - IMU driver, IMUPLUS mode.
-Wiring (record actual): Red=VIN, Black=GND, Yellow=SDA, Blue=SCL, Green=RST. Pin 2 (3Vo) unconnected.
-Mounting (record actual): board flat on Romi, z up, x forward.
+Wiring: Red=VIN, Black=GND, Orange=SDA, Blue=SCL, Purple=RST. Pin 2 (3Vo) unconnected.
+Mounting: board flat on Romi, z up, x forward.
 """
 from micropython import const
 from struct import calcsize, unpack_from
