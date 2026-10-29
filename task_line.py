@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Oct 21 23:46:16 2026
-
-@author: dejam
-"""
 
 """taskline"""
 from time import ticks_ms, ticks_diff, ticks_us
