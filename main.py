@@ -1,17 +1,19 @@
 """"main"""
+import gc
 import cotask
-from time import ticks_us, ticks_diff
-from pyb import Pin, Timer, USB_VCP, I2C
+from time import ticks_us, ticks_diff, sleep_ms
+from pyb import Pin, Timer, USB_VCP
 from task_share import Share, Queue
 from motor_AK import Motor
 from encoder import Encoder
-from taskmotor_0x05 import TaskMotor
-from taskuser_0x05 import TaskUser, S6_EXIT
+from taskmotor import TaskMotor
+from taskuser import TaskUser, S6_EXIT
 from task_line import TaskLine
 from ClosedLoop import ClosedLoop
 from line_sensor import N_SAMPLES, TIMER_FREQ
 from line_startup import get_line_sensor
 from imu_startup import get_imu
+from machine import SoftI2C, Pin as MPin
 
 Pin(Pin.cpu.C8, Pin.OUT_PP).low()    # Left nSLP
 Pin(Pin.cpu.B9, Pin.OUT_PP).low()    # Right nSLP
@@ -19,9 +21,15 @@ Pin(Pin.cpu.B9, Pin.OUT_PP).low()    # Right nSLP
 line_sensor = get_line_sensor()    # Calibrate before the scheduler starts
 
 # ADD WIRE PLACEMENT
-Pin(Pin.cpu.<pin>, Pin.OUT_PP).high()    # Green Wire 
-i2c = I2C(N, I2C.CONTROLLER, baudrate=400_000)    # N = free SCL/SDA pin
+MPin("C10", MPin.OUT, value=1)     # IMU reset (green wire) held high
+i2c = SoftI2C(scl=MPin("B13"), sda=MPin("B14"), freq=100_000, timeout=20000)
+
+MPin("C10", MPin.OUT, value=0)    # IMU reset (green wire) held low
+sleep_ms(100)
+MPin("C10", MPin.OUT, value=1)    # IMU reset released
+
 imu = get_imu(i2c)
+gc.collect()
 
 class Profiled:
     def __init__(self, name, gen, priority, period_ms):
@@ -85,8 +93,8 @@ LINE_INTERVAL_MS = 20    # Line task period
 MOTOR_PRIORITY = 2    # Highest priority runs first
 LINE_PRIORITY = 1    # Between motors and user
 USER_PRIORITY = 0    # Lowest priority
-TRIAL_DURATION_MS = 4000    # Step test length
-LINE_DURATION_MS = 5000    # Line following dataset length
+TRIAL_DURATION_MS = 2000    # Step test length
+LINE_DURATION_MS = 10000    # Line following dataset length
 N = TRIAL_DURATION_MS // SAMPLE_INTERVAL_MS + 5    # Step test queue size
 N_LINE = LINE_DURATION_MS // LINE_INTERVAL_MS + 5    # Line queue size
 
