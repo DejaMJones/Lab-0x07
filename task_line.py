@@ -24,7 +24,7 @@ MAX_SP = 50    # Same limit as the user interface [rad/s]
 NAN = float("nan")    # Marks an undefined centroid in the log
 
 # CHECK ALL OF THESE NUMBERS
-WHEEL_R = 0.035    # Wheel radius [m] 
+WHEEL_R = 0.035    # 35mm = 0.035 m Wheel radius [m] 
 D_LANE = 0.200    # Neighboring line spacing [m]
 SIGMA = 1    # +1 = left lane change, -1 = right
 W0 = 0.5    # Yaw-rate request [rad/s]  TUNE
@@ -141,7 +141,7 @@ class TaskLine:
                     now = ticks_us()
                     dt = ticks_diff(now, self.last_us) / 1_000_000    # Actual elapsed time [s]
                     self.last_us = now
-                    psi = (heading - self.h0 + pi) % (2 * pi) - pi
+                    psi = (heading - self.h0 + pi) % (2 * pi) - pi    # Given implementation
                     v_hat = WHEEL_R / 2 * (self.omega_L.get() + self.omega_R.get())
                     self.d_hat += v_hat * psi * dt
                     if SIGMA * self.d_hat >= D_LANE / 2:
