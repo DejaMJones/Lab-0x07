@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Oct  8 01:28:42 2026
-
-@author: dejam
-"""
 """taskuser"""
 S1_INIT = 1
 S2_HELP = 2
