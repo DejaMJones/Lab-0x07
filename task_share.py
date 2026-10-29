@@ -1,10 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Oct  8 01:25:26 2026
-
-@author: dejam
-"""
-"""task share"""
+"""task_share"""
 
 from array import array
 
