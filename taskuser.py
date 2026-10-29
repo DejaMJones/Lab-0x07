@@ -41,7 +41,7 @@ class TaskUser:
         self.state = S1_INIT
 
         self.help_lines = [
-            "ME 4305 Romi Closed-Loop Test Interface by Deja Jones and Anish Kaul",
+            "ME 4305 Romi Closed-Loop Test Interface by Deja Jones and Anisha Kaul",
             "h or H: Help menu",
             "s or S: Enter a velocity setpoint <= " + str(MAX_SP) + "[rad/s]",
             "p or P: Enter a proportional gain, Kp, from 0 to " + str(MAX_KP) + " [V/(rad/s)]",
@@ -275,7 +275,7 @@ class TaskUser:
                         self._request_exit()
                 if self.state == S9_WAIT_LINE:
                     if self.line[1].get():    # line_done = 1
-                        self.pending = self._build_line_header()
+                        self.pending = ["# Status: " + ("Succeeded" if self.line[1].get() == 1 else "Failed (timeout)")] + self._build_line_header()
                         self.state = S10_PRINT_LINE
 
             elif self.state == S10_PRINT_LINE:

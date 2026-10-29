@@ -20,7 +20,7 @@ NAN = float("nan")    # Marks an undefined centroid in the log
 # CHECK ALL OF THESE NUMBERS
 WHEEL_R = 0.035    # 35mm = 0.035 m Wheel radius [m] 
 D_LANE = 0.200    # Neighboring line spacing [m]
-SIGMA = 1    # +1 = left lane change, -1 = right
+SIGMA = -1    # +1 = left lane change, -1 = right
 W0 = 0.5    # Yaw-rate request [rad/s]  TUNE
 KP_W = 2.0    # Yaw-rate gain [(rad/s)/(rad/s)]  TUNE
 TRIGGER_MS = 2000    # Line following time before the lane change  TUNE
@@ -103,7 +103,7 @@ class TaskLine:
                     self.right_go.put(0)
                     self.done.put(DONE_SUCCEEDED)
                     self.state = S4_FINISHED
-                elif ticks_diff(ticks_ms(), self.start) >= TRIGGER_MS:    # Start lleaving lane
+                elif ticks_diff(ticks_ms(), self.start) >= TRIGGER_MS:    # Start leaving lane
                     rate, self.h0 = self.imu.read()
                     self.d_hat = 0
                     self.last_us = ticks_us()
@@ -115,6 +115,7 @@ class TaskLine:
                     centroid = self.sensor.read()    # mm, + = line on left
                     if centroid is None:    # Line lost, keep last setpoints
                         self.cen_q.put(NAN)
+                        print("Line Lost. Try Again")
                     else:
                         corr = self.kp_val * centroid
                         self.left_sp.put(self._clamp(self.base_val - corr))    # Swap - and + if turns backwards

@@ -12,10 +12,10 @@ class Motor:
    
     def set_effort(self, effort):
         if effort >= 0:
-            self.DIR_pin.high()
+            self.DIR_pin.low()
             self.PWM_chan.pulse_width_percent(effort)
         else:
-            self.DIR_pin.low()
+            self.DIR_pin.high()
             self.PWM_chan.pulse_width_percent(-effort)
            
     def enable(self):
